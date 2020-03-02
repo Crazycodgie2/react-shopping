@@ -1,0 +1,64 @@
+html {
+  box-sizing: border-box;
+  width: 960px;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.product_list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 50px auto 0;
+  position: relative;
+  justify-content: right;
+  left: 400px;
+  text-align: center;
+}
+
+img {
+  margin-bottom: 30px;
+  height: 300px;
+  width: 200px;
+}
+
+.buybutton {
+  background-color: #1b1a20;
+  color: white;
+  margin-top: 10px;
+  padding: 15px 0;
+  width: 100%;
+}
+
+.wrapper {
+  display: block;
+}
+
+.buybutton:focus {
+  outline: none;
+}
+
+.cartbutton {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 50px;
+  height: 50px;
+}
+
+.cost {
+  display: none;
+}
+
+.free {
+  position: relative;
+  right: -100px;
+  color: white;
+  background: black;
+  height: 15px;
+  width: 80px;
+  font-size: 12px;
+}
