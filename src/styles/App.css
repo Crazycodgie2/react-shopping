@@ -8,15 +8,19 @@ html {
   box-sizing: inherit;
 }
 
-.product_list {
+.product {
   display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 50px auto 0;
-  position: relative;
-  justify-content: right;
-  left: 400px;
-  text-align: center;
+  flex-direction: column;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 img {
@@ -49,16 +53,9 @@ img {
   height: 50px;
 }
 
-.cost {
-  display: none;
-}
-
-.free {
-  position: relative;
-  right: -100px;
-  color: white;
-  background: black;
-  height: 15px;
-  width: 80px;
-  font-size: 12px;
+.cart {
+  position: absolute;
+  top: 0px;
+  right: 50px;
+  height: 1000px;
 }

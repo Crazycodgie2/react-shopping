@@ -2,41 +2,85 @@ import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
 // 2. action definitions
-const ADD_PRODUCT = "cart/ADD_PRODUCT"
+const ADD_TO_CART = "cart/ADD_TO_CART"
+const REMOVE_FROM_CART = "cart/REMOVE_FROM_CART"
 
 // 3. initial state
 const initialState = {
-  cart: [],
-  open: false
+  cart: []
 }
 
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_PRODUCT:
-      return { ...state, cart: action.payload }
+    case ADD_TO_CART:
+      const exists =
+        state.cart.filter(product => product.id === action.payload.id).length >
+        0
+      if (exists) {
+        const item = state.cart.find(
+          product => product.id === action.payload.id
+        )
+        item.quantity = item.quantity + 1
+
+        return {
+          ...state,
+          cart: state.cart.map(p => (item.id === p.id ? item : p))
+        }
+      } else {
+        return {
+          ...state,
+          cart: [...state.cart, { ...action.payload, quantity: 1 }]
+        }
+      }
+    case REMOVE_FROM_CART:
+      if (state.cart.find(item => item.id === action.payload).quantity === 1) {
+        return {
+          ...state,
+          cart: state.cart.filter(item => item.id !== action.payload)
+        }
+      } else {
+        return {
+          ...state,
+          cart: state.cart.map(item => {
+            if (item.id === action.payload) {
+              item.quantity = item.quantity - 1
+              return item
+            } else {
+              return item
+            }
+          })
+        }
+      }
     default:
       return state
   }
 }
 
 // 5. action creators
-export function addProduct(product) {
+function addToCart(product) {
   return {
-    type: ADD_PRODUCT,
+    type: ADD_TO_CART,
     payload: product
+  }
+}
+
+function removeFromCart(id) {
+  return {
+    type: REMOVE_FROM_CART,
+    payload: id
   }
 }
 
 // 6. custom hook
 export function useCart() {
   const dispatch = useDispatch()
+  const add = product => dispatch(addToCart(product))
+  const remove = id => dispatch(removeFromCart(id))
   const cart = useSelector(appState => appState.cartState.cart)
-  const status = useSelector(appState => appState.cartState.open)
-
-  const add = product => dispatch(addProduct(product))
+  const total = cart.reduce((a, b) => a + b.price * b.quantity, 0).toFixed(2)
 
   useEffect(() => {}, [dispatch])
 
-  return { cart, status, add }
+  return { cart, add, total, remove }
 }
